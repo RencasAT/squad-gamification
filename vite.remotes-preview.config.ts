@@ -26,7 +26,7 @@ export default defineConfig({
   },
   preview: {
     host: 'localhost',
-    port: 5176,
+    port: 5177,
     cors: remotesCors,
     headers: remotesSecurityHeaders,
   },
