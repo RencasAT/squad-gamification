@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@gamification/shared-ui/*": ["./packages/shared-ui/src/*"],
+      "@gamification/shared-utils/*": ["./packages/shared-utils/src/*"],
+      "@mocks/*": ["./mocks/*"]
+    }
+  }
+}

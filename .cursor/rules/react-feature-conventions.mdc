@@ -1,0 +1,61 @@
+---
+description: Convenciones al trabajar en remotes de negocio
+globs: apps/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Remotes (`apps/<nombre>`)
+
+Cada carpeta bajo `apps/` es un remote autónomo.
+
+## Padres de menú vs remote real
+
+- **Padre de menú** (Administración, Clientes): solo en `nav-modules.ts` con `children`. Sin carpeta en `apps/`.
+- **Remote real**: carpeta en `apps/<nombre>/` + `*-page.tsx` + ruta (standalone) + `export-*.tsx` si se federá.
+
+## Estructura
+
+**Simple** (pocos archivos):
+
+```
+app/<nombre>/
+  <nombre>-page.tsx
+  remote.tsx          # expose de Module Federation (cuando aplique)
+  *-modal.tsx
+  *.schema.ts / *.types.ts
+```
+
+**Escalable** (tabs, varios modales; referencia `busqueda-clientes`):
+
+```
+app/<nombre>/
+  <nombre>-page.tsx   # orquestación / URL
+  remote.tsx
+  model/              # types, mock, schemas, (api/hooks)
+  components/         # UI interna del remote
+  tabs/               # un panel por tab
+  modals/             # <accion>-<entidad>-modal.tsx
+```
+
+La página orquesta; no acumular UI de tabs/modales en el `*-page.tsx`.
+
+## Al crear o ampliar
+
+1. Remote real bajo `app/` (no el padre de menú).
+2. Ruta en `packages/shared-ui/src/app.routes.tsx` (`moduleRoute` / anidado si hay padre).
+3. Subject + roles si aplica; nav hijo en `nav-modules.ts`.
+4. No importar otros `app/<otro-remote>`.
+5. Si se consume desde el host: `exposes` en `module-federation.config.ts`.
+
+## UI
+
+- Cards del remote: patrón del módulo (p. ej. `ClienteCard`) o card slate estándar.
+- Formularios: RHF + Zod.
+- Botones: `@primereact/ui/button` (no `primereact/button`).
+- Iconos `pi pi-*`.
+- Permisos: `<HasRole role="users">` o `useAccess().hasRole(...)`.
+
+## Estado
+
+- Pantalla: `useState` local.
+- Mocks / tipos: `model/` del remote.

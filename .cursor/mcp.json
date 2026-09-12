@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "primereact": {
+      "command": "npx",
+      "args": ["-y", "@primereact/mcp"]
+    }
+  }
+}

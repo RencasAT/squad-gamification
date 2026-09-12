@@ -1,0 +1,36 @@
+---
+description: Acceso por roles de Keycloak — menú, guards y UI
+globs: packages/shared-utils/src/access.ts,apps/host-shell/src/access/**/*.{ts,tsx},apps/host-shell/src/app.routes.tsx,apps/host-shell/src/layout/nav-modules.ts
+alwaysApply: false
+---
+
+# Acceso (Keycloak)
+
+## Fuente de verdad
+
+Roles del token: `realm_access.roles` + `resource_access[clientId].roles`.
+El API valida el JWT. El front solo oculta menú/botones.
+
+Nombres (kebab-case): `admin`, `dashboard`, `users`, `roles`, `clientes`, `premios`, …
+
+- `admin` abre todos los módulos.
+- Tener el rol del módulo (`users`) basta para ver la pantalla y las acciones de UI.
+
+## Dónde vive
+
+- `packages/shared-utils/src/access.ts` — `hasAppRole`, `rolesFromKeycloakToken`, `APP_ROLES`
+- `packages/shared-ui/src/access-context.tsx` — `AccessProvider`, `useAccess`
+- `packages/shared-ui/src/has-role.tsx` — `<HasRole role="users">`
+- `apps/host-shell/src/access/` — `RoleGuard`, `SessionAccessProvider` (roles de `/me`.accessRoles en local)
+
+## Al añadir un módulo
+
+1. Rol en Keycloak (mismo id kebab que en `APP_ROLES` / `nav-modules.ts`)
+2. Ruta con `moduleRoute('path', 'rol', <Page />)` / `RoleGuard`
+3. Entrada de menú con `role`
+4. Mock local: el módulo habilitado en el rol asignado se traduce a ese nombre (`resolveSessionRoles`)
+
+## UI
+
+- Rutas: `RoleGuard`
+- Remotes: `<HasRole role="users">` (el host federado pasa `roles` del token)

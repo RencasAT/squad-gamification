@@ -1,0 +1,14 @@
+---
+description: ESLint, Prettier y Husky del proyecto
+alwaysApply: true
+---
+
+# Formato y calidad
+
+- **Prettier**: formato oficial (`.prettierrc.json`). No pelear con reglas de estilo en ESLint.
+- **ESLint**: calidad TS/React + kebab-case de archivos. Integrado con `eslint-config-prettier`.
+- **Husky + lint-staged**: en `pre-commit` corre `eslint --fix` y `prettier --write` en staged.
+
+Al editar código, respetar el formato Prettier (comillas simples, semicolons, trailing commas, printWidth 80).
+
+Scripts: `pnpm lint`, `pnpm format`, `pnpm typecheck`.

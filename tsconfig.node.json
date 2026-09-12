@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "module": "nodenext",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "workspace-alias.ts",
+    "federation-serve.ts",
+    "vite.remotes-preview.config.ts",
+    "apps/host-shell/vite.config.ts",
+    "apps/atenea-clientes-buscador/vite.config.ts",
+    "apps/atenea-clientes-buscador/module-federation.config.ts",
+    "apps/atenea-contenido-rachas/vite.config.ts",
+    "apps/atenea-contenido-rachas/module-federation.config.ts",
+    "apps/atenea-administracion-usuarios/vite.config.ts",
+    "apps/atenea-administracion-usuarios/module-federation.config.ts",
+    "apps/atenea-administracion-roles/vite.config.ts",
+    "apps/atenea-administracion-roles/module-federation.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "test/e2e/**/*.ts"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    "types": ["vite/client"],
+    "allowArbitraryExtensions": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@gamification/shared-ui": ["./packages/shared-ui/src/index.ts"],
+      "@gamification/shared-ui/*": ["./packages/shared-ui/src/*"],
+      "@gamification/shared-utils": ["./packages/shared-utils/src/index.ts"],
+      "@gamification/shared-utils/*": ["./packages/shared-utils/src/*"],
+      "@gamification/host-shell": ["./apps/host-shell/src"],
+      "@gamification/host-shell/*": ["./apps/host-shell/src/*"],
+      "@gamification/atenea-gamificacion-analisis-modelado": [
+        "./apps/atenea-gamificacion-analisis-modelado/src/index.ts"
+      ],
+      "@gamification/atenea-gamificacion-analisis-modelado/*": [
+        "./apps/atenea-gamificacion-analisis-modelado/src/*"
+      ],
+      "@gamification/atenea-clientes-buscador": [
+        "./apps/atenea-clientes-buscador/src/index.ts"
+      ],
+      "@gamification/atenea-clientes-buscador/*": [
+        "./apps/atenea-clientes-buscador/src/*"
+      ],
+      "@gamification/atenea-contenido-rachas": [
+        "./apps/atenea-contenido-rachas/src/index.ts"
+      ],
+      "@gamification/atenea-contenido-rachas/*": [
+        "./apps/atenea-contenido-rachas/src/*"
+      ],
+      "@gamification/atenea-gamificacion-contenido": [
+        "./apps/atenea-gamificacion-contenido/src/index.ts"
+      ],
+      "@gamification/atenea-gamificacion-contenido/*": [
+        "./apps/atenea-gamificacion-contenido/src/*"
+      ],
+      "@gamification/atenea-gamificacion-dashboard": [
+        "./apps/atenea-gamificacion-dashboard/src/index.ts"
+      ],
+      "@gamification/atenea-gamificacion-dashboard/*": [
+        "./apps/atenea-gamificacion-dashboard/src/*"
+      ],
+      "@gamification/atenea-admin-logs": [
+        "./apps/atenea-admin-logs/src/index.ts"
+      ],
+      "@gamification/atenea-admin-logs/*": ["./apps/atenea-admin-logs/src/*"],
+      "@gamification/atenea-gamificacion-media": [
+        "./apps/atenea-gamificacion-media/src/index.ts"
+      ],
+      "@gamification/atenea-gamificacion-media/*": [
+        "./apps/atenea-gamificacion-media/src/*"
+      ],
+      "@gamification/atenea-admin-notificaciones": [
+        "./apps/atenea-admin-notificaciones/src/index.ts"
+      ],
+      "@gamification/atenea-admin-notificaciones/*": [
+        "./apps/atenea-admin-notificaciones/src/*"
+      ],
+      "@gamification/atenea-gamificacion-premios": [
+        "./apps/atenea-gamificacion-premios/src/index.ts"
+      ],
+      "@gamification/atenea-gamificacion-premios/*": [
+        "./apps/atenea-gamificacion-premios/src/*"
+      ],
+      "@gamification/atenea-administracion-roles": [
+        "./apps/atenea-administracion-roles/src/index.ts"
+      ],
+      "@gamification/atenea-administracion-roles/*": [
+        "./apps/atenea-administracion-roles/src/*"
+      ],
+      "@gamification/atenea-gamificacion-simulaciones": [
+        "./apps/atenea-gamificacion-simulaciones/src/index.ts"
+      ],
+      "@gamification/atenea-gamificacion-simulaciones/*": [
+        "./apps/atenea-gamificacion-simulaciones/src/*"
+      ],
+      "@gamification/atenea-ui-kit": ["./apps/atenea-ui-kit/src/index.ts"],
+      "@gamification/atenea-ui-kit/*": ["./apps/atenea-ui-kit/src/*"],
+      "@gamification/atenea-administracion-usuarios": [
+        "./apps/atenea-administracion-usuarios/src/index.ts"
+      ],
+      "@gamification/atenea-administracion-usuarios/*": [
+        "./apps/atenea-administracion-usuarios/src/*"
+      ],
+      "@mocks/*": ["./mocks/*"]
+    },
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["apps", "packages", "mocks", "test/unit", "test/setup"]
+}

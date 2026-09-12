@@ -1,0 +1,49 @@
+---
+description: Arquitectura microfrontend — monorepo apps + packages
+alwaysApply: true
+---
+
+# Arquitectura del proyecto
+
+Monorepo pnpm. El host de **producto** sigue siendo el repo hermano `host/`. Este repo publica remotes y un shell local.
+
+```
+apps/
+  host-shell/          # shell standalone: layout, rutas, login/sesión, perfil
+  <remote>/            # un remote autónomo (ex-src/app)
+packages/
+  shared-ui/           # design system: componentes, CSS, theme, assets
+  shared-utils/     # helpers, http, env, roles Keycloak
+mocks/                 # MSW (raíz del repo)
+```
+
+## Dependencias permitidas
+
+```
+apps/<remote>  → packages/shared-ui, packages/shared-utils
+apps/<remote>  ↛ apps/<otro-remote>
+apps/host-shell → remotes + packages
+packages        ↛ apps/host-shell
+packages/shared-ui ↛ packages/shared-utils  (sí puede)
+```
+
+- `apps/host-shell` → remotes + packages (login, `/me`, sesión, roles, perfil)
+- Un remote **no** importa `host-shell` ni otro remote.
+- El expose de federation vive en el remote (`export-<nombre>.tsx` + `vite.config.ts`).
+- `host-shell` no publica `remoteEntry.js`. `pnpm build` descubre `apps/*/module-federation.config.ts` y escribe `dist/[modulo]/remoteEntry.js`.
+- Keycloak/layout de producto federado son del **host** hermano.
+
+## Imports
+
+- `@gamification/shared-ui/...`
+- `@gamification/shared-utils/...`
+- `@gamification/<remote>/...`
+- Mocks: `@mocks/...`
+
+## Naming
+
+- Archivos y carpetas: **kebab-case**.
+- Componentes: PascalCase. Hooks: `useX`.
+- UI en español; símbolos de código en inglés.
+
+Ver detalle en `docs/conventions.md`.

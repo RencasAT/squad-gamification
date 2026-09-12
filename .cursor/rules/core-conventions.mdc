@@ -1,0 +1,31 @@
+---
+description: Convenciones de shared (auth, layout, api, shell local)
+globs: packages/shared-utils/src/api/**/*.{ts,tsx},apps/host-shell/src/{auth,access,layout,guards,settings,store}/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Shared (plataforma / shell local)
+
+Infra transversal. No pantallas de negocio ni mocks de un remote.
+
+## Contiene
+
+- `apps/host-shell/src/auth/` — login, `/me`, sesión (`useAuth`), token HTTP, cambio de contraseña
+- `apps/host-shell/src/access/` — `RoleGuard` + roles de `/me` en el standalone
+- `apps/host-shell/src/settings/` — perfil del usuario logueado
+- `guards/` — `AuthGuard` (host-shell)
+- `layout/` — shell, sidebar, `nav-modules`
+- `api/` — query client, cliente HTTP (sin sesión)
+- `apps/host-shell/src/store/` — Zustand del shell (sidebar / nav móvil)
+- `packages/shared-utils/src/access.ts` — `hasAppRole`, roles de Keycloak
+- `providers/` — providers globales de UI (sin sesión)
+- `theme/` — PrimeReact theme
+
+## Reglas
+
+- No importar desde `apps/<remote>/`.
+- Login, `/me` y usuario de sesión no viven en un remote.
+- Acceso: roles de Keycloak (`hasAppRole` / `AccessProvider`). El host (o `/me` en local) inyecta los roles.
+- Cambios de menú → `nav-modules.ts` (+ rol Keycloak si hay módulo nuevo).
+- Breadcrumbs de rutas fuera del menú → `shell-layout.tsx`.
+- Mantener naming kebab-case (`auth.guard.tsx`, `shell-layout.tsx`).

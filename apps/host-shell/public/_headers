@@ -1,0 +1,6 @@
+# HTML fresco tras cada deploy: evita apuntar a chunks con hash viejo.
+/*
+  Cache-Control: no-cache
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

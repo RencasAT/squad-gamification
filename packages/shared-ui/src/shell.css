@@ -1,0 +1,20 @@
+/* Solo host-shell (página propia). No lo importa un remote federado. */
+@import 'tailwindcss/preflight.css' layer(base);
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
+  background-image: url('./assets/img/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--color-ink);
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@gamification/atenea-gamificacion-premios",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*"
+  }
+}

@@ -1,0 +1,137 @@
+@layer theme, base, primereact, utilities;
+
+/* Sin preflight global: en ATBO `* { border: 0 }` pisa el chrome del host. */
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import 'tailwindcss-primeui';
+@import 'primeicons/primeicons.css';
+
+@source '../../../apps/**/*.{ts,tsx}';
+@source '../../shared-utils/src/**/*.{ts,tsx}';
+@source './**/*.{ts,tsx}';
+
+@font-face {
+  font-family: 'Gobold';
+  src: url('./assets/fonts/Gobold_Bold_Italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/rubik/Rubik-VariableFont_wght.ttf')
+    format('truetype');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/rubik/Rubik-Italic-VariableFont_wght.ttf')
+    format('truetype');
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Rubik', sans-serif;
+  --font-gobold: 'Gobold', sans-serif;
+
+  /* Paleta de marca: usar text-brand, bg-field, border-success, etc. */
+  --color-brand: #e30613;
+  --color-brand-hover: #c70510;
+  --color-ink: #222222;
+  --color-canvas: #eef1f4;
+  --color-field: #f4f5f7;
+  --color-field-muted: #e8eef3;
+  --color-success: #15bc00;
+  --color-success-soft: #e7f8e3;
+  --color-warning: #fbbf53;
+  --color-disabled: #e8eaed;
+
+  /* Sidebar (Figma): fondo #FAFAFA, activo #FAEFEF, título #535353 */
+  --color-sidebar: #fafafa;
+  --color-sidebar-border: #c4cfdc;
+  --color-sidebar-muted: #535353;
+  --color-sidebar-active: #faefef;
+  --color-sidebar-hover: #f0f0f0;
+  --color-sidebar-chevron: #a0a0a0;
+}
+
+/* Sidebar type: tope en --sidebar-font-max; el tamaño vivo viene de --sidebar-text. */
+.gm-sidebar {
+  font-size: min(var(--sidebar-font-max, 1rem), var(--sidebar-text, 1rem));
+}
+
+.gm-sidebar-child {
+  font-size: min(
+    var(--sidebar-child-font-max, 0.875rem),
+    var(--sidebar-child-text, 0.875rem)
+  );
+}
+
+/*
+ * Preflight acotado al hijo federado. El shell standalone importa
+ * `shell.css` (preflight global + fondo).
+ */
+@layer base {
+  .gm-remote,
+  .gm-remote *,
+  .gm-remote ::after,
+  .gm-remote ::before,
+  .gm-remote ::backdrop,
+  .gm-remote ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+}
+
+@keyframes gm-autofill {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gm-row-flash {
+  0%,
+  100% {
+    background-color: transparent;
+  }
+  12%,
+  38%,
+  64% {
+    background-color: #ffe566;
+  }
+  25%,
+  51%,
+  77% {
+    background-color: rgb(255 229 102 / 0.35);
+  }
+}
+
+.gm-row-flash > * {
+  /* Espera el modal de éxito (~1.8s) y la salida del drawer (~0.3s). */
+  animation: gm-row-flash 1.8s ease-in-out 2.15s 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-row-flash > * {
+    animation: none;
+    background-color: #ffe566;
+  }
+}
+
+/* Dispara onAnimationStart en FloatInput para detectar autofill del browser. */
+input.gm-float-autofill:-webkit-autofill {
+  animation: gm-autofill 0.01s;
+  -webkit-text-fill-color: var(--color-ink);
+  caret-color: var(--color-ink);
+}

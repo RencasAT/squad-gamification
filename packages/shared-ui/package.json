@@ -1,0 +1,12 @@
+{
+  "name": "@gamification/shared-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./index.css": "./src/index.css",
+    "./shell.css": "./src/shell.css",
+    "./*": "./src/*"
+  }
+}
