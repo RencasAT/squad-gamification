@@ -1,11 +1,10 @@
 import { createModuleFederationConfig } from '@module-federation/vite';
-import {
-  MF_BUILD_TARGET,
-  MF_SHARE_STRATEGY,
-  sharedDependencies,
-} from '@atbo/mf-kit/shared';
+import { MF_BUILD_TARGET, MF_SHARE_STRATEGY } from '@atbo/mf-kit/shared';
 
-import { hostFederationRemote } from '../../federation-serve.ts';
+import {
+  hostFederationRemote,
+  remoteSharedDependencies,
+} from '../../federation-serve.ts';
 
 export const remoteBasePath = '/atenea-clientes-buscador/';
 
@@ -23,5 +22,5 @@ export default createModuleFederationConfig({
     './page': './src/export-busqueda-clientes.tsx',
     './module': './src/module.tsx',
   },
-  shared: sharedDependencies,
+  shared: remoteSharedDependencies,
 });

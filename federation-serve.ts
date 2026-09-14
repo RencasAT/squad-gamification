@@ -1,3 +1,5 @@
+import { sharedDependencies } from '@atbo/mf-kit/shared';
+
 /** Orígenes del host de producto que pueden cargar remoteEntry.js en local. */
 export const hostDevOrigins = [
   'http://127.0.0.1:5173',
@@ -18,6 +20,21 @@ export const hostFederationRemote = {
     shareScope: 'default',
   },
 };
+
+export const remoteSharedDependencies = Object.fromEntries(
+  Object.entries(sharedDependencies).map(([id, config]) => [
+    id,
+    id.startsWith('react')
+      ? {
+          ...config,
+          import: false as const,
+          // El runtime acepta `false` (salta el check de versión); los tipos
+          // del plugin solo declaran string.
+          requiredVersion: false as unknown as string,
+        }
+      : config,
+  ]),
+);
 
 export const remotesCors = {
   origin: [...hostDevOrigins],
