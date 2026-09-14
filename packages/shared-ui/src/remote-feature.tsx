@@ -3,9 +3,7 @@ import { AppProviders } from './providers/app-providers';
 import { AccessProvider } from './access-context';
 import '@gamification/shared-ui/index.css';
 import { enableMocking } from '@mocks/enable-mocking';
-import type {} from '@atbo/mf-kit/contract';
 import { adoptHostSession } from '@atbo/mf-kit/dev-session';
-import { DashboardLayout } from 'host/layout';
 
 let mockingPromise: Promise<void> | null = null;
 
@@ -15,12 +13,18 @@ function ensureMocking(): Promise<void> {
 }
 await adoptHostSession({
   hostEntry:
-    import.meta.env.VITE_HOST_ENTRY || 'http://localhost:5174/remoteEntry.js',
+    import.meta.env.VITE_HOST_ENTRY || 'http://localhost:5173/remoteEntry.js',
   enabled: import.meta.env.DEV,
 });
 
-/** Bootstrap de un feature federado: providers + CSS, sin shell ni router propio. */
-export function RemoteFeature({ children }: { children: ReactNode }) {
+/**
+ * Bootstrap de un feature federado: providers + CSS, sin shell ni router propio.
+ *
+ * NO monta el chrome del host: lo envuelve `module.tsx`, la entrada federada,
+ * con `host/layout`. Aquí rompería el modo standalone (`src/main.tsx`), que
+ * comparte este bootstrap y no tiene por qué depender del host ATBO.
+ */
+export function RemoteFeature({ children }: Readonly<{ children: ReactNode }>) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -48,13 +52,11 @@ export function RemoteFeature({ children }: { children: ReactNode }) {
 
   return (
     <StrictMode>
-      <DashboardLayout breadcrumb={{ current: 'Crear versión', items: [] }}>
-        <AppProviders>
-          <AccessProvider roles={['admin']}>
-            <div className="gm-remote min-h-full p-3 md:p-5">{children}</div>
-          </AccessProvider>
-        </AppProviders>
-      </DashboardLayout>
+      <AppProviders>
+        <AccessProvider roles={['admin']}>
+          <div className="gm-remote min-h-full p-3 md:p-5">{children}</div>
+        </AccessProvider>
+      </AppProviders>
     </StrictMode>
   );
 }

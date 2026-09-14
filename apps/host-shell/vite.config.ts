@@ -16,16 +16,20 @@ export default defineConfig({
     alias: gamificationAliases(repoRoot),
   },
   server: {
-    host: '127.0.0.1',
-    port: 5173,
+    host: 'localhost',
+    port: 5182,
+    // Sin esto Vite salta al siguiente puerto libre y acaba pisando otro servicio.
+    strictPort: true,
     cors: true,
     fs: {
       allow: [repoRoot],
     },
   },
   preview: {
-    host: '127.0.0.1',
-    port: 5173,
+    host: 'localhost',
+    port: 5182,
+    // Sin esto Vite salta al siguiente puerto libre y acaba pisando otro servicio.
+    strictPort: true,
     cors: true,
   },
   build: {

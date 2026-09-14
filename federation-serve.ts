@@ -1,12 +1,12 @@
 /** Orígenes del host de producto que pueden cargar remoteEntry.js en local. */
 export const hostDevOrigins = [
-  'http://127.0.0.1:5174',
-  'http://localhost:5174',
+  'http://127.0.0.1:5173',
+  'http://localhost:5173',
 ] as const;
 
 /** `remoteEntry.js` del host ATBO. Override: `VITE_HOST_ENTRY`. */
 export const defaultHostEntry =
-  process.env.VITE_HOST_ENTRY ?? 'http://localhost:5174/remoteEntry.js';
+  process.env.VITE_HOST_ENTRY ?? 'http://localhost:5173/remoteEntry.js';
 
 /** Remote federado `host/*` (`host/layout`, `host/store`, …). */
 export const hostFederationRemote = {

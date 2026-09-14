@@ -27,8 +27,9 @@ El flujo es:
 
 `usuario → host ATBO (sesión) → carga remoteEntry → remote (su UI) → API`
 
-Los remotes **no** hablan con el IdP ni montan el chrome del host. El host
-reserva un `basePath` y monta el módulo; el remote pinta su árbol.
+Los remotes **no** hablan con el IdP. El host reserva un `basePath` y monta el
+módulo; el remote pinta su árbol dentro del chrome del host, que monta él mismo
+con `host/layout` en su `module.tsx` (ver §0).
 
 ---
 
@@ -41,7 +42,7 @@ kit de contrato (`@atbo/mf-kit`):
 | ------------------------- | ------------------------------------------------ | ---------------------------------------- |
 | `host/store`              | Store Redux + `injectReducer` / `injectApi`      | Solo si hace falta inyectar estado       |
 | `host/auth`               | `useAuth()` del host (usuario, accesses, logout) | No para pintar UI; la sesión es del host |
-| `host/layout`             | `DashboardLayout` (sidebar, breadcrumb)          | **No**                                   |
+| `host/layout`             | `DashboardLayout` (sidebar, breadcrumb)          | **Sí**, en cada `module.tsx`             |
 | `host/ui`                 | Button, Card, Table, Input, … (Radix / shadcn)   | **No**                                   |
 | `host/lib`                | `cn()` del host                                  | **No**                                   |
 | `host/styles`             | Hoja global del host (reset + tokens ATBO)       | **No**                                   |
@@ -59,8 +60,11 @@ En este repo eso significa:
 
 - Componentes y tema propios: PrimeReact (`@primereact/ui`), Tailwind y
   `packages/shared-ui` de **este** monorepo.
-- No importar `host/ui`, `host/layout`, `host/styles` ni los tokens del kit
-  para maquetar pantallas.
+- No importar `host/ui`, `host/styles` ni los tokens del kit para maquetar
+  pantallas. `host/layout` es la excepción: da el chrome del backoffice
+  (sidebar, header y breadcrumb), no estética de pantalla. Va en el `module.tsx`
+  de cada app —la entrada federada— y NO en `RemoteFeature`, que lo comparte el
+  modo standalone (`src/main.tsx`) y no debe depender del host.
 - Iconos y widgets de producto: los nuestros (`primeicons` / `shared-ui`).
 
 Widgets, íconos y piezas de UI que este equipo cree y quiera compartir con
@@ -73,7 +77,13 @@ Lo que **sí** es contrato (no estética):
 1. Exponer el módulo que el host registra (`./module` → `MicrofrontendModule`).
 2. Compartir las mismas singletons de runtime (`@atbo/mf-kit/shared`) para
    no tener dos Reacts en la página.
-3. Dejar la sesión y el chrome (sidebar, login, logout) en el host.
+3. Dejar la sesión (login, logout) en el host y pintar su chrome con
+   `host/layout`.
+4. **En local, servir los módulos en dev (`pnpm dev:remotes`), no en
+   `preview`.** Un remote construido se trae su copia de React y gana el share
+   scope frente al host, que corre en dev: en cuanto usa `host/layout` revienta
+   con `Cannot read properties of null (reading 'useContext')`. En producción no
+   pasa porque ambos lados van construidos.
 
 ---
 
@@ -322,13 +332,13 @@ sigue envuelta con el puente de este repo cuando hace falta token / roles /
 2. `AccessProvider(roles)` — `useAccess()`, `<HasPermission>`, `<HasRole>`.
 3. `onUnauthorized` — si la API responde 401, el remote delega el logout al host.
 
-| Necesidad          | Usar                                      | No usar                       |
-| ------------------ | ----------------------------------------- | ----------------------------- |
-| Llamar a la API    | `http` de `shared-utils`                  | Cliente HTTP del host         |
-| Pintar la pantalla | PrimeReact + `shared-ui` de este repo     | `host/ui`, `host/styles`      |
-| Layout / sidebar   | Lo pinta el host (`RemoteModule`)         | `host/layout` desde el remote |
-| Mostrar/ocultar UI | `HasPermission` / `useAccess`             | Leer el JWT a mano            |
-| Cerrar sesión      | Delegar al host (`onUnauthorized` / auth) | Login o logout propios        |
+| Necesidad          | Usar                                      | No usar                     |
+| ------------------ | ----------------------------------------- | --------------------------- |
+| Llamar a la API    | `http` de `shared-utils`                  | Cliente HTTP del host       |
+| Pintar la pantalla | PrimeReact + `shared-ui` de este repo     | `host/ui`, `host/styles`    |
+| Layout / sidebar   | `host/layout` en `module.tsx`             | Montarlo en `RemoteFeature` |
+| Mostrar/ocultar UI | `HasPermission` / `useAccess`             | Leer el JWT a mano          |
+| Cerrar sesión      | Delegar al host (`onUnauthorized` / auth) | Login o logout propios      |
 
 ---
 

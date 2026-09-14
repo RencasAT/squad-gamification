@@ -37,7 +37,6 @@ export function UsersListPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [userToEditId, setUserToEditId] = useState<number | null>(null);
   const [userToToggle, setUserToToggle] = useState<BackofficeUser | null>(null);
-
   const usersQuery = useUsersQuery({
     q: query,
     active: statusTab === 'active',
@@ -92,7 +91,7 @@ export function UsersListPage() {
             className="pi pi-user-plus size-5 text-xl leading-none"
             aria-hidden
           />
-          <span className="font-gobold">Gestión de usuarios</span>
+          <span className="font-gobold">Gestión de usuarios GAHHH</span>
         </h2>
 
         <div className="flex flex-wrap items-center justify-between gap-3">

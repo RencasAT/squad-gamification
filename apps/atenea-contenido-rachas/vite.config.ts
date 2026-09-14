@@ -35,18 +35,22 @@ export default defineConfig(({ command, mode }): UserConfig => {
       alias: gamificationAliases(repoRoot),
     },
     server: {
-      host: '127.0.0.1',
-      port: 5173,
+      host: 'localhost',
+      port: 5181,
+      // Sin esto Vite salta al siguiente puerto libre y acaba pisando otro servicio.
+      strictPort: true,
       cors: remotesCors,
-      origin: 'http://127.0.0.1:5173',
+      origin: 'http://localhost:5181',
       headers: remotesSecurityHeaders,
       fs: {
         allow: [repoRoot],
       },
     },
     preview: {
-      host: '127.0.0.1',
-      port: 5173,
+      host: 'localhost',
+      port: 5181,
+      // Sin esto Vite salta al siguiente puerto libre y acaba pisando otro servicio.
+      strictPort: true,
       cors: remotesCors,
       headers: remotesSecurityHeaders,
     },
